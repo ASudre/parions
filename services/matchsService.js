@@ -5,12 +5,80 @@ var Match = require('../app/models/match'),
 
 
 // ALL
-match.getMatchList = function (callback) {
+match.getMatchList = function (userEmail, callback) {
 	Match.find({}).sort( { date: 1 } ).exec(function(err, result) {
-		console.log(result);
+
+		var retour = new Array();
+
+		for (matchIt of result) {
+
+			// calcul de la somme des cotes
+			//val.cotes = calculeCote
+			var mises = matchIt.mises;
+			var sommeMisesEq1 = 0;
+			var sommeMisesNul = 0;
+			var sommeMisesEq2 = 0;
+		
+			var idMatch = matchIt.idMatch;
+			var equipe1 = matchIt.equipe1.nomEquipe;			
+			var equipe2 = matchIt.equipe2.nomEquipe;		
+			var date = matchIt.date;
+
+			var miseUtilisateur = "";
+
+			for (mise of mises) {
+
+				switch(mise.equipe) {
+					case equipe1:
+						sommeMisesEq1+=mise.valeurMise;
+						break;
+					case equipe2:
+						sommeMisesEq2+=mise.valeurMise;
+						break;
+					case 'Nul':
+						sommeMisesNul+=mise.valeurMise;
+						break;
+					default:
+						console.log("Mise ne conrespondant pas au match " + idMatch);
+				}
+
+				if(mise.emailUtilisateur == userEmail) {
+					miseUtilisateur = {
+						"equipe": mise.equipe,
+						"valeurMise": mise.valeurMise
+					}
+				}
+
+			}
+
+			var cotes = match.calculeCote(sommeMisesEq1, sommeMisesEq2, sommeMisesNul);
+
+			matchRes = {
+				"idMatch": idMatch,
+				"equipe1": equipe1,
+				"equipe2": equipe2,
+				"date": date,
+				"cotes": cotes,
+				"miseUtilisateur": miseUtilisateur
+			};
+
+			retour.push(matchRes);
+		}
+
+		console.log(retour);
 		//result=...
-		callback(null, result)
+		callback(null, retour)
 	});
+};
+
+match.calculeCote = function(misesEq1, misesEq2, misesNul) {
+	var cotes = new Array();
+	cotes['equipe1'] = (misesEq1 == 0) ? "" : (misesEq2 + misesNul) / misesEq1;
+	cotes['equipeNul'] = (misesNul == 0) ? "" : (misesEq1 + misesEq2) / misesNul;
+	cotes['equipe2'] = (misesEq2 == 0) ? "" : (misesEq1 + misesNul) / misesEq2;
+
+	return cotes;
+
 };
 
 match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {

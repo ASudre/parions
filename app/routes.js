@@ -1,6 +1,6 @@
 // app/routes.js
 
-var matchService = require('../services/matchsService.js')
+var matchService = require('../services/matchsService.js');
 
 module.exports = function(app, passport) {
 
@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/listMatchs', isLoggedIn, function(req, res) {
 
-        matchService.getMatchList(function(err, liste) {
+        matchService.getMatchList(req.user.local.email, function(err, liste) {
             res.render('listMatchs.ejs', { user: req.user, listMatchs: liste });
         })
     });

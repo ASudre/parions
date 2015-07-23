@@ -38,35 +38,35 @@
 					    %>	
 					    	<tr id="<%= listMatchs[i].idMatch %>">
 								<td><%= i+1 %></td>
-								<td><%= listMatchs[i].equipe1.nomEquipe %></td>
-								<td><%= listMatchs[i].equipe2.nomEquipe %></td>
+								<td><%= listMatchs[i].equipe1 %></td>
+								<td><%= listMatchs[i].equipe2 %></td>
 								<!-- Si l'utilisateur a déjà misé -->
-								<% if(listMatchs[i].mises[0] && listMatchs[i].mises[0].emailUtilisateur == user.local.email) { %>
+								<% if(listMatchs[i].miseUtilisateur != '') { %>
 									<td>
 										<select name="equipe">
-											<option value="<%= listMatchs[i].equipe1.nomEquipe %>"
-												<% if(listMatchs[i].equipe1.nomEquipe == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
-												<%= listMatchs[i].equipe1.nomEquipe %>
+											<option value="<%= listMatchs[i].equipe1 %>"
+												<% if(listMatchs[i].equipe1 == listMatchs[i].equipe1) { %>selected <% } %> >
+												<%= listMatchs[i].equipe1 %>
 											</option>
 											<option value="Nul"
-												<% if('Nul' == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
+												<% if('Nul' == listMatchs[i].equipe1) { %>selected <% } %> >
 												Nul
 											</option>
-											<option value="<%= listMatchs[i].equipe2.nomEquipe %>"
-												<% if(listMatchs[i].equipe2.nomEquipe == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
-												<%= listMatchs[i].equipe2.nomEquipe %>
+											<option value="<%= listMatchs[i].equipe2 %>"
+												<% if(listMatchs[i].equipe2 == listMatchs[i].equipe1) { %>selected <% } %> >
+												<%= listMatchs[i].equipe2 %>
 											</option>
 										</select>
 									</td>
-									<td><input name="mise" type="number" min="0" value="<%= listMatchs[i].mises[0].valeurMise %>" /></td>
+									<td><input name="mise" type="number" min="0" value="<%= listMatchs[i].miseUtilisateur.valeurMise %>" /></td>
 								<% } 
 								else { %>
 									<td>
 										<select name="equipe">
 											<option value="" selected></option>
-											<option value="<%= listMatchs[i].equipe1.nomEquipe %>"><%= listMatchs[i].equipe1.nomEquipe %></option>
+											<option value="<%= listMatchs[i].equipe1 %>"><%= listMatchs[i].equipe1 %></option>
 											<option value="Nul">Nul</option>
-											<option value="<%= listMatchs[i].equipe2.nomEquipe %>"><%= listMatchs[i].equipe2.nomEquipe %></option>
+											<option value="<%= listMatchs[i].equipe2 %>"><%= listMatchs[i].equipe2 %></option>
 										</select>
 									</td>
 									<td>
