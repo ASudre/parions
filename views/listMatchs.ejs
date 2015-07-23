@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<% include components/header %> 
+	
+    <link href="css/dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<% include components/top_nav %> 
+
+
+	    <div class="container-fluid">
+	      <div class="row">
+
+			<% include components/left_nav %> 
+
+
+
+	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+	          <h1 class="page-header">Liste des matchs</h1>
+
+	          <h2 class="sub-header">Non joués</h2>
+	          <div class="table-responsive">
+	            <table class="table table-striped listMatchs">
+	              <thead>
+	                <tr>
+	                  <th>#</th>
+	                  <th>Equipe 1</th>
+	                  <th>Equipe 2</th>
+	                  <th colspan="2">Mise</th>
+	                  <th></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+					<%
+					    for(var i = 0 ; i <= listMatchs.length - 1 ; i++) {
+					    %>	
+					    	<tr id="<%= listMatchs[i].idMatch %>">
+								<td><%= i+1 %></td>
+								<td><%= listMatchs[i].equipe1.nomEquipe %></td>
+								<td><%= listMatchs[i].equipe2.nomEquipe %></td>
+								<!-- Si l'utilisateur a déjà misé -->
+								<% if(listMatchs[i].mises[0] && listMatchs[i].mises[0].emailUtilisateur == user.local.email) { %>
+									<td>
+										<select name="equipe">
+											<option value="<%= listMatchs[i].equipe1.nomEquipe %>"
+												<% if(listMatchs[i].equipe1.nomEquipe == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
+												<%= listMatchs[i].equipe1.nomEquipe %>
+											</option>
+											<option value="Nul"
+												<% if('Nul' == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
+												Nul
+											</option>
+											<option value="<%= listMatchs[i].equipe2.nomEquipe %>"
+												<% if(listMatchs[i].equipe2.nomEquipe == listMatchs[i].mises[0].equipe) { %>selected <% } %> >
+												<%= listMatchs[i].equipe2.nomEquipe %>
+											</option>
+										</select>
+									</td>
+									<td><input name="mise" type="number" min="0" value="<%= listMatchs[i].mises[0].valeurMise %>" /></td>
+								<% } 
+								else { %>
+									<td>
+										<select name="equipe">
+											<option value="" selected></option>
+											<option value="<%= listMatchs[i].equipe1.nomEquipe %>"><%= listMatchs[i].equipe1.nomEquipe %></option>
+											<option value="Nul">Nul</option>
+											<option value="<%= listMatchs[i].equipe2.nomEquipe %>"><%= listMatchs[i].equipe2.nomEquipe %></option>
+										</select>
+									</td>
+									<td>
+										<input name="mise" type="number" min="0" value="" />
+									</td>
+								<% } %>
+								<td><input name="valider" type="button" value="OK" /></td>
+							</tr>
+
+					<% } %>
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Traitements de la liste des matchs -->
+    <script src="js/listMatchs.js"></script>
+
+  </body>
+</html>

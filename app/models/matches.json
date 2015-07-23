@@ -1,0 +1,68 @@
+[
+	{
+		"idMatch": 1,
+		"date": "2015/05/01",
+		"equipe1": 
+			{
+				"idEquipe" : 1,
+				"nomEquipe": "Allemagne",
+				"score": 1
+			},
+		"equipe2":
+			{
+				"idEquipe" : 2,
+				"nomEquipe": "France",
+				"score": 2
+			},
+		"mises": 
+			[
+				{"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": 20, "equipe": "France"}
+			]
+	},
+	{
+		"idMatch": 2,
+		"date": "2015/06/01",
+		"equipe1": 
+			{
+				"idEquipe" : 3,
+				"nomEquipe": "Espagne"
+			},
+		"equipe2":
+			{
+				"idEquipe" : 4,
+				"nomEquipe": "Italie"
+			},
+		"mises": 
+			[
+				{"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": 20, "equipe": "Italie"}
+			]
+	},
+	{
+		"idMatch": 3,
+		"date": "2015/05/04",
+		"equipe1": 
+			{
+				"idEquipe" : 3,
+				"nomEquipe": "Espagne"
+			},
+		"equipe2":
+			{
+				"idEquipe" : 2,
+				"nomEquipe": "France"
+			}
+	},
+	{
+		"idMatch": 4,
+		"date": "2015/05/12",
+		"equipe1": 
+			{
+				"idEquipe" : 1,
+				"nomEquipe": "Allemagne"
+			},
+		"equipe2":
+			{
+				"idEquipe" : 4,
+				"nomEquipe": "Italie"
+			}
+	}
+]

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<% include components/header %> 
+	
+    <link href="css/dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<% include components/top_nav %> 
+
+
+	    <div class="container-fluid">
+	      <div class="row">
+
+			<% include components/left_nav %> 
+
+
+
+	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+	          <h1 class="page-header">Liste des matchs</h1>
+
+	          <h2 class="sub-header">Non joués</h2>
+	          <div class="table-responsive">
+	            <table class="table table-striped listMatchs">
+	              <thead>
+	                <tr>
+	                  <th>#</th>
+	                  <th>Equipe 1</th>
+	                  <th>Equipe 2</th>
+	                  <th>Score</th>
+	                  <th></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+					<%
+					    for(var i = 0 ; i <= listMatchs.length - 1 ; i++) {
+					    %>	
+					    	<tr id="<%= listMatchs[i].idMatch %>">
+								<td><%= i+1 %></td>
+								<td><%= listMatchs[i].equipe1.nomEquipe %></td>
+								<td><%= listMatchs[i].equipe2.nomEquipe %></td>
+								<td><input name="scoreEquipe1" type="number" min="0" value="<%= listMatchs[i].equipe1.score %>" /> - <input name="scoreEquipe2" type="number" min="0" value="<%= listMatchs[i].equipe2.score %>" /></td>
+								<td><input name="validerScore" type="button" value="OK" /></td>
+							</tr>
+
+					<% } %>
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Traitements de la liste des matchs -->
+    <script src="js/listMatchs.js"></script>
+
+  </body>
+</html>
