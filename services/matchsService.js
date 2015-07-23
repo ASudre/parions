@@ -8,7 +8,10 @@ var Match = require('../app/models/match'),
 match.getMatchList = function (userEmail, callback) {
 	Match.find({}).sort( { date: 1 } ).exec(function(err, result) {
 
-		var retour = new Array();
+		var retourMatchs = new Array();
+		var sommeMisesUtilisateur = 0;
+
+		console.log(result);
 
 		for (matchIt of result) {
 
@@ -24,7 +27,7 @@ match.getMatchList = function (userEmail, callback) {
 			var equipe2 = matchIt.equipe2.nomEquipe;		
 			var date = matchIt.date;
 
-			var miseUtilisateur = "";
+			var miseUtilisateur = new Array();
 
 			for (mise of mises) {
 
@@ -43,10 +46,11 @@ match.getMatchList = function (userEmail, callback) {
 				}
 
 				if(mise.emailUtilisateur == userEmail) {
-					miseUtilisateur = {
+					miseUtilisateur.push({
 						"equipe": mise.equipe,
 						"valeurMise": mise.valeurMise
-					}
+					});
+					sommeMisesUtilisateur+=mise.valeurMise;
 				}
 
 			}
@@ -59,12 +63,13 @@ match.getMatchList = function (userEmail, callback) {
 				"equipe2": equipe2,
 				"date": date,
 				"cotes": cotes,
-				"miseUtilisateur": miseUtilisateur
+				"misesUtilisateur": miseUtilisateur
 			};
 
-			retour.push(matchRes);
+			retourMatchs.push(matchRes);
 		}
 
+		var retour = {"matchs": retourMatchs, "sommeMisesUtilisateur": sommeMisesUtilisateur};
 		console.log(retour);
 		//result=...
 		callback(null, retour)
@@ -89,15 +94,15 @@ match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {
 			var error = false;
 			var result = "";
 
-			if(resultQuery.length == 0) {
-				result = match.insertBet(userEmail, idMatch, equipe, mise);
-			}
+			//if(resultQuery.length == 0) {
+			result = match.insertBet(userEmail, idMatch, equipe, mise);
+			/*}
 			else if (resultQuery.length == 1) {
 				result = match.updateBet(userEmail, idMatch, equipe, mise);
 			}
 			else {
 				error = true;
-			}
+			}*/
 			//result=...
 			callback('{"error": ' + error + '}');
 	});

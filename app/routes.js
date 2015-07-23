@@ -42,8 +42,8 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/listMatchs', isLoggedIn, function(req, res) {
 
-        matchService.getMatchList(req.user.local.email, function(err, liste) {
-            res.render('listMatchs.ejs', { user: req.user, listMatchs: liste });
+        matchService.getMatchList(req.user.local.email, function(err, retour) {
+            res.render('listMatchs.ejs', { "user": req.user, "listMatchs": retour.matchs, "sommeMisesUtilisateur": retour.sommeMisesUtilisateur });
         })
     });
 

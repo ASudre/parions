@@ -28,6 +28,7 @@
 	                  <th>#</th>
 	                  <th>Equipe 1</th>
 	                  <th>Equipe 2</th>
+	                  <th>Paris effectués</th>
 	                  <th colspan="2">Mise</th>
 	                  <th></th>
 	                </tr>
@@ -40,39 +41,26 @@
 								<td><%= i+1 %></td>
 								<td><%= listMatchs[i].equipe1 %></td>
 								<td><%= listMatchs[i].equipe2 %></td>
-								<!-- Si l'utilisateur a déjà misé -->
-								<% if(listMatchs[i].miseUtilisateur != '') { %>
-									<td>
-										<select name="equipe">
-											<option value="<%= listMatchs[i].equipe1 %>"
-												<% if(listMatchs[i].equipe1 == listMatchs[i].equipe1) { %>selected <% } %> >
-												<%= listMatchs[i].equipe1 %>
-											</option>
-											<option value="Nul"
-												<% if('Nul' == listMatchs[i].equipe1) { %>selected <% } %> >
-												Nul
-											</option>
-											<option value="<%= listMatchs[i].equipe2 %>"
-												<% if(listMatchs[i].equipe2 == listMatchs[i].equipe1) { %>selected <% } %> >
-												<%= listMatchs[i].equipe2 %>
-											</option>
-										</select>
-									</td>
-									<td><input name="mise" type="number" min="0" value="<%= listMatchs[i].miseUtilisateur.valeurMise %>" /></td>
-								<% } 
-								else { %>
-									<td>
-										<select name="equipe">
-											<option value="" selected></option>
-											<option value="<%= listMatchs[i].equipe1 %>"><%= listMatchs[i].equipe1 %></option>
-											<option value="Nul">Nul</option>
-											<option value="<%= listMatchs[i].equipe2 %>"><%= listMatchs[i].equipe2 %></option>
-										</select>
-									</td>
-									<td>
-										<input name="mise" type="number" min="0" value="" />
-									</td>
-								<% } %>
+								<td>
+									<select name="mises">
+										<%
+											for(var j = 0 ; j <= listMatchs[i].misesUtilisateur.length - 1 ; j++) {
+										%>
+											<option><%= listMatchs[i].misesUtilisateur[j].equipe %> - <%= listMatchs[i].misesUtilisateur[j].valeurMise %></option>
+										<% } %>
+									</select>
+								</td>
+								<td>
+									<select id="equipe" name="equipe">
+										<option value="" selected></option>
+										<option value="<%= listMatchs[i].equipe1 %>"><%= listMatchs[i].equipe1 %></option>
+										<option value="Nul">Nul</option>
+										<option value="<%= listMatchs[i].equipe2 %>"><%= listMatchs[i].equipe2 %></option>
+									</select>
+								</td>
+								<td>
+									<input name="mise" type="number" min="0" value="" />
+								</td>
 								<td><input name="valider" type="button" value="OK" /></td>
 							</tr>
 
@@ -91,6 +79,8 @@
 
     <!-- Traitements de la liste des matchs -->
     <script src="js/listMatchs.js"></script>
+
+    <script src="/bower_components/angular/angular.js"></script>
 
   </body>
 </html>

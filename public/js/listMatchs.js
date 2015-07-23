@@ -13,7 +13,7 @@ $( document ).ready(function() {
 		function(index) {
 			var idMatch = $( this ).attr('id');
 			$( this ).find("input[name='valider']").on('click', function() {
-				saveBet(idMatch, $('tr#' + idMatch + ' select option:selected').val(), $('tr#' + idMatch + ' input[name="mise"]').val());
+				saveBet(idMatch, $('tr#' + idMatch + ' select#equipe option:selected').val(), $('tr#' + idMatch + ' input[name="mise"]').val());
 			})
 		}
 	)
