@@ -5,24 +5,21 @@
 	
     <link href="css/dashboard.css" rel="stylesheet">
   </head>
-  <body>
+  <body ng-app="parionsApp">
 
 	<% include components/top_nav %> 
-
 
 	    <div class="container-fluid">
 	      <div class="row">
 
 			<% include components/left_nav %> 
 
-
-
 	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	          <h1 class="page-header">Liste des matchs</h1>
 
 	          <h2 class="sub-header">Non joués</h2>
 	          <div class="table-responsive">
-	            <table class="table table-striped listMatchs">
+	            <table class="table table-striped listMatchs" ng-controller="listMatchController">
 	              <thead>
 	                <tr>
 	                  <th>#</th>
@@ -34,37 +31,28 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-					<%
-					    for(var i = 0 ; i <= listMatchs.length - 1 ; i++) {
-					    %>	
-					    	<tr id="<%= listMatchs[i].idMatch %>">
-								<td><%= i+1 %></td>
-								<td><%= listMatchs[i].equipe1 %></td>
-								<td><%= listMatchs[i].equipe2 %></td>
-								<td>
-									<select name="mises">
-										<%
-											for(var j = 0 ; j <= listMatchs[i].misesUtilisateur.length - 1 ; j++) {
-										%>
-											<option><%= listMatchs[i].misesUtilisateur[j].equipe %> - <%= listMatchs[i].misesUtilisateur[j].valeurMise %></option>
-										<% } %>
-									</select>
-								</td>
-								<td>
-									<select id="equipe" name="equipe">
-										<option value="" selected></option>
-										<option value="<%= listMatchs[i].equipe1 %>"><%= listMatchs[i].equipe1 %></option>
-										<option value="Nul">Nul</option>
-										<option value="<%= listMatchs[i].equipe2 %>"><%= listMatchs[i].equipe2 %></option>
-									</select>
-								</td>
-								<td>
-									<input name="mise" type="number" min="0" value="" />
-								</td>
-								<td><input name="valider" type="button" value="OK" /></td>
-							</tr>
-
-					<% } %>
+	              	<tr ng-repeat="match in matchs" id="{{ match.idMatch }}">
+						<td>{{ $index + 1 }}</td>
+						<td>{{ match.equipe1 }}</td>
+						<td>{{ match.equipe2 }}</td>
+						<td>
+							<select name="mises" ng-repeat="mises in match.misesUtilisateur">
+									<option>{{mises.equipe }} - {{ mises.valeurMise }}</option>
+							</select>
+						</td>
+						<td>
+							<select id="equipe" name="equipe" ng-model="match.idMatch">
+								<option value="" selected></option>
+								<option value="{{ match.equipe1 }}">{{ match.equipe1 }}</option>
+								<option value="Nul">Nul</option>
+								<option value="{{ match.equipe2 }}">{{ match.equipe2 }}</option>
+							</select>
+						</td>
+						<td>
+							<input name="mise" type="number" min="0" value="" ng-model="match.idMatch" />
+						</td>
+						<td><button ng-click="saveBet( match.idMatch )" name="valider">OK</button></td>
+	              	</tr>
 	              </tbody>
 	            </table>
 	          </div>
@@ -81,6 +69,13 @@
     <script src="js/listMatchs.js"></script>
 
     <script src="/bower_components/angular/angular.js"></script>
+
+    <!-- Traitements angular -->
+    <script src="js/app.js"></script>
+
+    <script type="text/javascript">
+    	var listMatchs = <%- JSON.stringify( listMatchs ) %>;
+    </script>
 
   </body>
 </html>
