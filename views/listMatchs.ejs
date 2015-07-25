@@ -41,7 +41,7 @@
 							</select>
 						</td>
 						<td>
-							<select id="equipe" name="equipe" ng-model="match.idMatch">
+							<select id="equipe" name="equipe" ng-model="match.nouvelleMiseEquipe">
 								<option value="" selected></option>
 								<option value="{{ match.equipe1 }}">{{ match.equipe1 }}</option>
 								<option value="Nul">Nul</option>
@@ -49,9 +49,9 @@
 							</select>
 						</td>
 						<td>
-							<input name="mise" type="number" min="0" value="" ng-model="match.idMatch" />
+							<input name="mise" type="number" min="0" value="" ng-model="match.nouvelleMiseValeur" />
 						</td>
-						<td><button ng-click="saveBet( match.idMatch )" name="valider">OK</button></td>
+						<td><button ng-click="saveBet( $index, match.idMatch )" name="valider">OK</button></td>
 	              	</tr>
 	              </tbody>
 	            </table>

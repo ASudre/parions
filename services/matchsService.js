@@ -63,7 +63,9 @@ match.getMatchList = function (userEmail, callback) {
 				"equipe2": equipe2,
 				"date": date,
 				"cotes": cotes,
-				"misesUtilisateur": miseUtilisateur
+				"misesUtilisateur": miseUtilisateur,
+				"nouvelleMiseValeur": 0,
+				"nouvelleMiseEquipe": ""
 			};
 
 			retourMatchs.push(matchRes);

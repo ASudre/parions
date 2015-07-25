@@ -5,16 +5,22 @@ app.controller("listMatchController", function($scope){
     $scope.title = "Titre";
     $scope.matchs = listMatchs;
 
-    $scope.saveBet = function(idMatch) {
-        if(!idMatch || idMatch == "") {
+    $scope.saveBet = function(index, idMatch) {
+
+        console.log($scope.matchs[index]);
+
+        if((!idMatch || idMatch == "") || (!index || index == "") || (!$scope.matchs[index] || $scope.matchs[index] == "")) {
             alert('Erreur de sauvegarde.');
             return;
         }
-        else if(!equipe || equipe == "") {
+        else if(!$scope.matchs[index].nouvelleMiseEquipe || $scope.matchs[index].nouvelleMiseEquipe == ""
+            || ($scope.matchs[index].equipe1 != $scope.matchs[index].nouvelleMiseEquipe
+                && $scope.matchs[index].equipe2 != $scope.matchs[index].nouvelleMiseEquipe)
+            ) {
             alert("Nom d'équipe non reconnu");
             return;
         }
-        else if(!mise || mise == "") {
+        else if(!$scope.matchs[index].nouvelleMiseValeur || $scope.matchs[index].nouvelleMiseValeur == "") {
             alert('Valeur de la mise non valide');
             return;
         }
@@ -25,8 +31,8 @@ app.controller("listMatchController", function($scope){
             url: '/saveMatch',
             data: { 
                 'idMatch': idMatch, 
-                'equipe': equipe, 
-                'mise': mise
+                'equipe': $scope.matchs[index].nouvelleMiseEquipe, 
+                'mise': $scope.matchs[index].nouvelleMiseValeur
             },
             dataType: 'json',
             success: function(msg){
