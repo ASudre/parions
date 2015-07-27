@@ -8,7 +8,7 @@ var fields = {
 	date: { type: Date },
 	equipe1: { idEquipe: Number, nomEquipe: String, score: Number},
 	equipe2: { idEquipe: Number, nomEquipe: String, score: Number},
-  mises: [{ emailUtilisateur: String, valeurMise: Number, equipe: String }]
+  mises: [{ emailUtilisateur: String, valeurMise: Number, equipe: String, date: { type: Date, default: Date.now } }]
 };
 
 var MatchSchema = new Schema(fields);

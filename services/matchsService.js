@@ -28,6 +28,7 @@ match.getMatchList = function (userEmail, callback) {
 			var date = matchIt.date;
 
 			var miseUtilisateur = new Array();
+			var pariAffiche="";
 
 			for (mise of mises) {
 
@@ -46,11 +47,16 @@ match.getMatchList = function (userEmail, callback) {
 				}
 
 				if(mise.emailUtilisateur == userEmail) {
-					miseUtilisateur.push({
+
+					pariAffiche = {
 						"equipe": mise.equipe,
-						"valeurMise": mise.valeurMise
-					});
+						"valeurMise": mise.valeurMise,
+						"date": mise.date
+					};
+					
+					miseUtilisateur.push(pariAffiche);
 					sommeMisesUtilisateur+=mise.valeurMise;
+ 
 				}
 
 			}
@@ -65,7 +71,8 @@ match.getMatchList = function (userEmail, callback) {
 				"cotes": cotes,
 				"misesUtilisateur": miseUtilisateur,
 				"nouvelleMiseValeur": 0,
-				"nouvelleMiseEquipe": ""
+				"nouvelleMiseEquipe": "",
+				"parisAffiche": pariAffiche
 			};
 
 			retourMatchs.push(matchRes);

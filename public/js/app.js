@@ -9,18 +9,23 @@ app.controller("listMatchController", function($scope){
 
         console.log($scope.matchs[index]);
 
-        if((!idMatch || idMatch == "") || (!index || index == "") || (!$scope.matchs[index] || $scope.matchs[index] == "")) {
+        var equipeMise = $scope.matchs[index].nouvelleMiseEquipe;
+        var valeurMise = $scope.matchs[index].nouvelleMiseValeur;
+
+        if((!idMatch || idMatch == "") || (!$scope.matchs[index] || $scope.matchs[index] == "")) {
             alert('Erreur de sauvegarde.');
             return;
         }
-        else if(!$scope.matchs[index].nouvelleMiseEquipe || $scope.matchs[index].nouvelleMiseEquipe == ""
-            || ($scope.matchs[index].equipe1 != $scope.matchs[index].nouvelleMiseEquipe
-                && $scope.matchs[index].equipe2 != $scope.matchs[index].nouvelleMiseEquipe)
+        else if(!equipeMise || equipeMise == ""
+            || ($scope.matchs[index].equipe1 != equipeMise
+                && $scope.matchs[index].equipe2 != equipeMise
+                && equipeMise != 'Nul'
+                )
             ) {
             alert("Nom d'équipe non reconnu");
             return;
         }
-        else if(!$scope.matchs[index].nouvelleMiseValeur || $scope.matchs[index].nouvelleMiseValeur == "") {
+        else if(!valeurMise || valeurMise == "") {
             alert('Valeur de la mise non valide');
             return;
         }
@@ -31,13 +36,16 @@ app.controller("listMatchController", function($scope){
             url: '/saveMatch',
             data: { 
                 'idMatch': idMatch, 
-                'equipe': $scope.matchs[index].nouvelleMiseEquipe, 
-                'mise': $scope.matchs[index].nouvelleMiseValeur
+                'equipe': equipeMise, 
+                'mise': valeurMise
             },
             dataType: 'json',
             success: function(msg){
 
                 if(!msg.error) {
+
+                    $scope.matchs[index].misesUtilisateur.unshift({"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": valeurMise, "equipe": equipeMise, "date": new Date()});
+
                     alert('Votre pari a été enregistré.');
                 }
                 else {
