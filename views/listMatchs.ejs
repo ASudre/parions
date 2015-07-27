@@ -36,7 +36,7 @@
 						<td>{{ match.equipe1 }}</td>
 						<td>{{ match.equipe2 }}</td>
 						<td>
-							<select name="mises" ng-model="parisAffiche" ng-options="(mises.equipe + ' - ' + mises.valeurMise + ' / ' + mises.date) for mises in match.misesUtilisateur track by date">
+							<select name="mises" ng-model="pariAffiche" ng-options="(mises.equipe + ' - ' + mises.valeurMise + ' / ' + mises.date) for mises in match.misesUtilisateur track by date">
 									<!--option>{{mises.equipe }} - {{ mises.valeurMise }}</option-->
 							</select>
 						</td>

@@ -53,7 +53,7 @@ match.getMatchList = function (userEmail, callback) {
 						"valeurMise": mise.valeurMise,
 						"date": mise.date
 					};
-					
+
 					miseUtilisateur.push(pariAffiche);
 					sommeMisesUtilisateur+=mise.valeurMise;
  
@@ -72,7 +72,7 @@ match.getMatchList = function (userEmail, callback) {
 				"misesUtilisateur": miseUtilisateur,
 				"nouvelleMiseValeur": 0,
 				"nouvelleMiseEquipe": "",
-				"parisAffiche": pariAffiche
+				"pariAffiche": pariAffiche
 			};
 
 			retourMatchs.push(matchRes);

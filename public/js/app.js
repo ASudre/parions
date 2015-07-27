@@ -44,7 +44,10 @@ app.controller("listMatchController", function($scope){
 
                 if(!msg.error) {
 
-                    $scope.matchs[index].misesUtilisateur.unshift({"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": valeurMise, "equipe": equipeMise, "date": new Date()});
+                    var nouvelleMise = {"valeurMise": valeurMise, "equipe": equipeMise, "date": new Date()};
+
+                    $scope.matchs[index].misesUtilisateur.unshift(nouvelleMise);
+                    $scope.matchs[index].pariAffiche = nouvelleMise;
 
                     alert('Votre pari a été enregistré.');
                 }
