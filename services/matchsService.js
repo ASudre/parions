@@ -13,8 +13,6 @@ match.getMatchList = function (userEmail, callback) {
 
 		for (matchIt of result) {
 
-			// calcul de la somme des cotes
-			//val.cotes = calculeCote
 			var mises = matchIt.mises;
 			var sommeMisesEq1 = 0;
 			var sommeMisesNul = 0;
@@ -63,14 +61,18 @@ match.getMatchList = function (userEmail, callback) {
 
 			}
 
-			var cotes = match.calculeCote(sommeMisesEq1, sommeMisesEq2, sommeMisesNul);
+			var mises = {};
+
+			mises['equipe1'] = sommeMisesEq1;
+			mises['nul'] = sommeMisesNul;
+			mises['equipe2'] = sommeMisesEq2;
 
 			matchRes = {
 				"idMatch": idMatch,
 				"equipe1": equipe1,
 				"equipe2": equipe2,
 				"date": date,
-				"cotes": cotes,
+				"mises": mises,
 				"misesUtilisateur": miseUtilisateur,
 				"nouvelleMiseValeur": 0,
 				"nouvelleMiseEquipe": "",
@@ -97,16 +99,6 @@ match.getMatch = function (idMatch, callback) {
 	});
 
 }
-
-match.calculeCote = function(misesEq1, misesEq2, misesNul) {
-	var cotes = new Array();
-	cotes['equipe1'] = (misesEq1 == 0) ? "" : (misesEq2 + misesNul) / misesEq1;
-	cotes['equipeNul'] = (misesNul == 0) ? "" : (misesEq1 + misesEq2) / misesNul;
-	cotes['equipe2'] = (misesEq2 == 0) ? "" : (misesEq1 + misesNul) / misesEq2;
-
-	return cotes;
-
-};
 
 match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {
 

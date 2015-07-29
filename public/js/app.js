@@ -13,14 +13,16 @@ app.controller("listMatchController", function($scope){
 
         var equipeMise = $scope.matchs[index].nouvelleMiseEquipe;
         var valeurMise = $scope.matchs[index].nouvelleMiseValeur;
+        var equipe1 = $scope.matchs[index].equipe1;
+        var equipe2 = $scope.matchs[index].equipe2;
 
         if((!idMatch || idMatch == "") || (!$scope.matchs[index] || $scope.matchs[index] == "")) {
             alert('Erreur de sauvegarde.');
             return;
         }
         else if(!equipeMise || equipeMise == ""
-            || ($scope.matchs[index].equipe1 != equipeMise
-                && $scope.matchs[index].equipe2 != equipeMise
+            || (equipe1 != equipeMise
+                && equipe2 != equipeMise
                 && equipeMise != 'Nul'
                 )
             ) {
@@ -51,6 +53,17 @@ app.controller("listMatchController", function($scope){
                     $scope.$apply(function(){
                         $scope.matchs[index].misesUtilisateur.push(nouvelleMise);
                         $scope.sommeMisesUtilisateur += valeurMise;
+
+                        if(equipeMise == equipe1) {
+                            $scope.matchs[index].mises['equipe1'] += valeurMise;
+                        }
+                        else if(equipeMise == equipe1) {
+                            $scope.matchs[index].mises['equipe2'] += valeurMise;
+                        }
+                        else if(equipeMise == 'Nul') {
+                            $scope.matchs[index].mises['nul'] += valeurMise;
+                        }
+
                     });
 
                     alert('Votre pari a été enregistré.');
@@ -63,7 +76,30 @@ app.controller("listMatchController", function($scope){
     };
 
 
+    $scope.calculeCote = function(index, equipe) {
+        var mises = $scope.matchs[index].mises;
+        misesNul = mises['nul'];
+        misesEq1 = mises['equipe1'];
+        misesEq2 = mises['equipe2'];
 
+        var cote = "*";
+
+        if(equipe == "equipe1") {
+           cote = (misesEq1 == 0) ? "*" : (misesEq2 + misesNul) / misesEq1;
+        }
+        else if(equipe == "nul") {
+            cote = (misesNul == 0) ? "*" : (misesEq1 + misesEq2) / misesNul;
+        }
+        else if(equipe == "equipe2") {
+            cote = (misesEq2 == 0) ? "*" : (misesEq1 + misesNul) / misesEq2;
+        }
+        else {
+
+        }
+
+        return cote;
+
+    };
 });
 
 /**app.directive("expander", function(){
