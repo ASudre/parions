@@ -90,6 +90,48 @@ match.getMatchList = function (userEmail, callback) {
 	});
 };
 
+// ALL
+match.getMatchListAdmin = function (callback) {
+	Match.find({}).sort( { date: 1 } ).exec(function(err, result) {
+
+		var retourMatchs = new Array();
+		var sommeMisesUtilisateur = 0;
+
+		for (matchIt of result) {
+
+			var idMatch = matchIt.idMatch;
+			var equipe1 = matchIt.equipe1.nomEquipe;		
+			var equipe2 = matchIt.equipe2.nomEquipe;
+
+			var scoreEquipe1 = matchIt.equipe1.score;	
+			var scoreEquipe2 = matchIt.equipe2.score;	
+
+			var date = matchIt.date;
+
+			// Ne pas afficher la possibilité de miser si la date de début de match est dépassée
+			var dateCourante = new Date();
+			var afficherInput = date < dateCourante;
+
+			matchRes = {
+				"idMatch": idMatch,
+				"equipe1": equipe1,
+				"equipe2": equipe2,
+				"date": date,
+				"afficherInput": afficherInput,
+				"scoreEquipe1": scoreEquipe1,
+				"scoreEquipe2": scoreEquipe2
+			};
+
+			retourMatchs.push(matchRes);
+		}
+
+		var retour = {"matchs": retourMatchs};
+		console.log(retour);
+		//result=...
+		callback(null, retour)
+	});
+};
+
 match.getMatch = function (idMatch, callback) {
 	Match.find(
 	{
@@ -135,6 +177,9 @@ match.saveScore = function (idMatch, scoreEquipe1, scoreEquipe2, callback) {
 	).exec(function(err, result) {
 		var error = false;
 		callback('{"error": ' + error + '}');
+	});
+
+	Match.find({}).sort( { date: 1 } ).exec(function(err, result) {
 	});
 };
 

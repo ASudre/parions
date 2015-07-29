@@ -5,17 +5,14 @@
 	
     <link href="css/dashboard.css" rel="stylesheet">
   </head>
-  <body>
+  <body ng-app="parionsApp">
 
 	<% include components/top_nav %> 
 
-
-	    <div class="container-fluid">
+	    <div class="container-fluid" ng-controller="listMatchAdminController">
 	      <div class="row">
 
 			<% include components/left_nav %> 
-
-
 
 	        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	          <h1 class="page-header">Liste des matchs</h1>
@@ -26,25 +23,34 @@
 	              <thead>
 	                <tr>
 	                  <th>#</th>
-	                  <th>Equipe 1</th>
-	                  <th>Equipe 2</th>
+	                  <th>Date</th>
+	                  <th>Match</th>
 	                  <th>Score</th>
 	                  <th></th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<%
-					    for(var i = 0 ; i <= listMatchs.length - 1 ; i++) {
-					    %>	
-					    	<tr id="<%= listMatchs[i].idMatch %>">
-								<td><%= i+1 %></td>
-								<td><%= listMatchs[i].equipe1.nomEquipe %></td>
-								<td><%= listMatchs[i].equipe2.nomEquipe %></td>
-								<td><input name="scoreEquipe1" type="number" min="0" value="<%= listMatchs[i].equipe1.score %>" /> - <input name="scoreEquipe2" type="number" min="0" value="<%= listMatchs[i].equipe2.score %>" /></td>
-								<td><input name="validerScore" type="button" value="OK" /></td>
-							</tr>
-
-					<% } %>
+	              	<tr ng-repeat="match in matchs" id="{{ match.idMatch }}">
+						<td>{{ $index + 1 }}</td>
+						<td>
+							{{ match.date | date:'dd/MM/yyyy à H:mm' }}
+						</td>
+						<td>
+							{{ match.equipe1 }} -
+							{{ match.equipe2 }}
+						</td>
+						<td>
+							<div ng-show="match.afficherInput" class="ng-hide">
+								<input name="mise" placeholder="{{ match.equipe1 }}" type="number" min="0" value="" ng-model="match.scoreEquipe1" /> - 
+								<input name="mise" placeholder="{{ match.equipe2 }}" type="number" min="0" value="" ng-model="match.scoreEquipe2" />
+							</div>
+						</td>
+						<td>
+							<div ng-show="match.afficherInput" class="ng-hide">
+								<button ng-click="saveScore( $index, match.idMatch )" name="valider">OK</button>
+							</div>
+						</td>
+	              	</tr>
 	              </tbody>
 	            </table>
 	          </div>
@@ -59,6 +65,16 @@
 
     <!-- Traitements de la liste des matchs -->
     <script src="js/listMatchs.js"></script>
+
+    <script src="/bower_components/angular/angular.js"></script>
+
+    <!-- Traitements angular -->
+    <script src="js/app.js"></script>
+
+    <script type="text/javascript">
+    	var listMatchs = <%- JSON.stringify( listMatchs ) %>;
+    	var cagnotte = <%- user.local.cagnotte %>;
+    </script>
 
   </body>
 </html>

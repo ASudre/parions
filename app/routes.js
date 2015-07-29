@@ -78,8 +78,8 @@ module.exports = function(app, passport) {
 
     app.get('/listMatchsAdmin', isLoggedIn, function(req, res) {
 
-        matchService.getMatchList(function(err, liste) {
-            res.render('listMatchsAdmin.ejs', { user: req.user, listMatchs: liste });
+        matchService.getMatchListAdmin(function(err, retour) {
+            res.render('listMatchsAdmin.ejs', { "user": req.user, "listMatchs": retour.matchs });
         })
     });
 
