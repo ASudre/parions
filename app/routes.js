@@ -48,9 +48,26 @@ module.exports = function(app, passport) {
     });
 
     app.post('/saveMatch', isLoggedIn, function(req, res) {
-        matchService.saveMatch(req.user.local.email, req.body.idMatch, req.body.equipe, req.body.mise, function(retour) {
-            res.send(retour);
-        })
+
+        var dateMise = new Date();
+        var dateMatch;
+        matchService.getMatch(req.body.idMatch, function(retour) { 
+            dateMatch = retour[0].date;
+
+            if(dateMise > dateMatch) {
+                var reponse = {
+                    "error": true,
+                    "message": "Trop tard pour miser sur ce match."
+                };
+                res.send(reponse);
+            }
+            else {
+                matchService.saveMatch(req.user.local.email, req.body.idMatch, req.body.equipe, req.body.mise, function(retour) {
+                    res.send(retour);
+                });
+            }
+        });
+
     });
 
     app.post('/saveScore', isLoggedIn, function(req, res) {

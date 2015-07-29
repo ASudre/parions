@@ -1,7 +1,7 @@
 [
 	{
 		"idMatch": 1,
-		"date": "2015/05/01",
+		"date": "2015/07/29 17:58",
 		"equipe1": 
 			{
 				"idEquipe" : 1,
@@ -34,7 +34,7 @@
 			},
 		"mises": 
 			[
-				{"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": 20, "equipe": "Italie", "date": "2015/06/01"}
+				{"emailUtilisateur": "arthursudre@gmail.com", "valeurMise": 20, "equipe": "Italie", "date": "2015/06/01 16:30"}
 			]
 	},
 	{
@@ -53,7 +53,7 @@
 	},
 	{
 		"idMatch": 4,
-		"date": "2015/05/12",
+		"date": "2015/08/12",
 		"equipe1": 
 			{
 				"idEquipe" : 1,

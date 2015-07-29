@@ -4,6 +4,8 @@ var app = angular.module("parionsApp", []);
 app.controller("listMatchController", function($scope){
     $scope.title = "Titre";
     $scope.matchs = listMatchs;
+    $scope.sommeMisesUtilisateur = sommeMisesUtilisateur;
+    $scope.cagnotte = cagnotte;
 
     $scope.saveBet = function(index, idMatch) {
 
@@ -46,13 +48,15 @@ app.controller("listMatchController", function($scope){
 
                     var nouvelleMise = {"valeurMise": valeurMise, "equipe": equipeMise, "date": new Date()};
 
-                    $scope.matchs[index].misesUtilisateur.unshift(nouvelleMise);
-                    $scope.matchs[index].pariAffiche = nouvelleMise;
+                    $scope.$apply(function(){
+                        $scope.matchs[index].misesUtilisateur.push(nouvelleMise);
+                        $scope.sommeMisesUtilisateur += valeurMise;
+                    });
 
                     alert('Votre pari a été enregistré.');
                 }
                 else {
-                    alert("L'enregistrement de votre pari a rencontré une erreur.");    
+                    alert(msg.message);    
                 }
             }
         });

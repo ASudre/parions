@@ -11,8 +11,6 @@ match.getMatchList = function (userEmail, callback) {
 		var retourMatchs = new Array();
 		var sommeMisesUtilisateur = 0;
 
-		console.log(result);
-
 		for (matchIt of result) {
 
 			// calcul de la somme des cotes
@@ -30,6 +28,10 @@ match.getMatchList = function (userEmail, callback) {
 			var miseUtilisateur = new Array();
 			var pariAffiche="";
 
+			// Ne pas afficher la possibilité de miser si la date de début de match est dépassée
+			var dateCourante = new Date();
+			var afficherInput = date > dateCourante;
+
 			for (mise of mises) {
 
 				switch(mise.equipe) {
@@ -43,7 +45,7 @@ match.getMatchList = function (userEmail, callback) {
 						sommeMisesNul+=mise.valeurMise;
 						break;
 					default:
-						console.log("Mise ne conrespondant pas au match " + idMatch);
+						console.log("Mise ne correspondant pas au match " + idMatch);
 				}
 
 				if(mise.emailUtilisateur == userEmail) {
@@ -72,7 +74,8 @@ match.getMatchList = function (userEmail, callback) {
 				"misesUtilisateur": miseUtilisateur,
 				"nouvelleMiseValeur": 0,
 				"nouvelleMiseEquipe": "",
-				"pariAffiche": pariAffiche
+				"pariAffiche": pariAffiche,
+				"afficherInput": afficherInput
 			};
 
 			retourMatchs.push(matchRes);
@@ -84,6 +87,16 @@ match.getMatchList = function (userEmail, callback) {
 		callback(null, retour)
 	});
 };
+
+match.getMatch = function (idMatch, callback) {
+	Match.find(
+	{
+		"idMatch" : idMatch
+	}).exec(function(err, result) {
+		callback(result);
+	});
+
+}
 
 match.calculeCote = function(misesEq1, misesEq2, misesNul) {
 	var cotes = new Array();
@@ -113,7 +126,7 @@ match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {
 				error = true;
 			}*/
 			//result=...
-			callback('{"error": ' + error + '}');
+			callback('{"error": ' + error + ', "message": "Erreur de sauvegarde du pari."}');
 	});
 };
 
