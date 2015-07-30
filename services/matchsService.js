@@ -150,16 +150,8 @@ match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {
 			var error = false;
 			var result = "";
 
-			//if(resultQuery.length == 0) {
 			result = match.insertBet(userEmail, idMatch, equipe, mise);
-			/*}
-			else if (resultQuery.length == 1) {
-				result = match.updateBet(userEmail, idMatch, equipe, mise);
-			}
-			else {
-				error = true;
-			}*/
-			//result=...
+
 			callback('{"error": ' + error + ', "message": "Erreur de sauvegarde du pari."}');
 	});
 };
