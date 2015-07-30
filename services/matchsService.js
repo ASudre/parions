@@ -157,6 +157,54 @@ match.saveMatch = function (userEmail, idMatch, equipe, mise, callback) {
 };
 
 match.saveScore = function (idMatch, scoreEquipe1, scoreEquipe2, callback) {
+
+	Match.find({ 
+			idMatch: idMatch
+		}).exec(function(err, resultQuery) {
+
+			var misesUtilisateurs = new Array();
+			var equipeVainqueur = "";
+			var sommeMisesGagnantesMatch = 0;
+			var sommeMisesPerdantesMatch = 0;
+
+			resultat = resultQuery[0];
+
+			if(scoreEquipe1 > scoreEquipe2) {
+				equipeVainqueur = resultat.equipe1.nomEquipe;
+			}
+			else if(scoreEquipe1 < scoreEquipe2) {
+				equipeVainqueur = resultat.equipe2.nomEquipe;
+			}
+			else {
+				equipeVainqueur = 'Nul'
+			}
+
+			console.log('vainqueur : ' + equipeVainqueur + ' score : ' + scoreEquipe1 + '/' + scoreEquipe2);
+
+			for (miseIt of resultat.mises) {
+
+				// On initialise la somme des mises pour l'utilisateur
+				if(!misesUtilisateurs[miseIt.emailUtilisateur]) {
+					misesUtilisateurs[miseIt.emailUtilisateur] = {sommeMisesGagnantes:0, sommeMisesPerdantes: 0};
+				}
+
+				if(equipeVainqueur == miseIt.equipe) {
+					misesUtilisateurs[miseIt.emailUtilisateur].sommeMisesGagnantes += miseIt.valeurMise;
+					sommeMisesGagnantesMatch += miseIt.valeurMise;
+				}
+				else {
+					misesUtilisateurs[miseIt.emailUtilisateur].sommeMisesPerdantes += miseIt.valeurMise;
+					sommeMisesPerdantesMatch += miseIt.valeurMise;
+				}
+				
+			}
+
+			console.log("cote: " + (1+sommeMisesPerdantesMatch/sommeMisesGagnantesMatch));
+
+			console.log(misesUtilisateurs);
+		}
+	);
+
 	Match.update
 	(
 		{ 
@@ -171,8 +219,6 @@ match.saveScore = function (idMatch, scoreEquipe1, scoreEquipe2, callback) {
 		callback('{"error": ' + error + '}');
 	});
 
-	Match.find({}).sort( { date: 1 } ).exec(function(err, result) {
-	});
 };
 
 
