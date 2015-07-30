@@ -22,6 +22,7 @@ match.getMatchList = function (userEmail, callback) {
 			var equipe1 = matchIt.equipe1.nomEquipe;			
 			var equipe2 = matchIt.equipe2.nomEquipe;		
 			var date = matchIt.date;
+			var gains = matchIt.gains;
 
 			var miseUtilisateur = new Array();
 			var pariAffiche="";
@@ -61,6 +62,14 @@ match.getMatchList = function (userEmail, callback) {
 
 			}
 
+
+			var gainUtilisateur = 0;
+			for (gain of gains) {
+				if(gain.emailUtilisateur == userEmail) {
+					gainUtilisateur = gain.gain;
+				}
+			}
+
 			var mises = {};
 
 			mises['equipe1'] = sommeMisesEq1;
@@ -77,7 +86,8 @@ match.getMatchList = function (userEmail, callback) {
 				"nouvelleMiseValeur": 0,
 				"nouvelleMiseEquipe": "",
 				"pariAffiche": pariAffiche,
-				"afficherInput": afficherInput
+				"afficherInput": afficherInput,
+				"gain": gainUtilisateur
 			};
 
 			retourMatchs.push(matchRes);
@@ -176,7 +186,7 @@ match.saveScore = function (idMatch, scoreEquipe1, scoreEquipe2, callback) {
 				equipeVainqueur = resultat.equipe2.nomEquipe;
 			}
 			else {
-				equipeVainqueur = 'Nul'
+				equipeVainqueur = 'Nul';
 			}
 
 			console.log('vainqueur : ' + equipeVainqueur + ' score : ' + scoreEquipe1 + '/' + scoreEquipe2);
@@ -199,25 +209,30 @@ match.saveScore = function (idMatch, scoreEquipe1, scoreEquipe2, callback) {
 				
 			}
 
-			console.log("cote: " + (1+sommeMisesPerdantesMatch/sommeMisesGagnantesMatch));
+			var cote = (sommeMisesPerdantesMatch/sommeMisesGagnantesMatch);
+			var gains = new Array();
+			for (utilisateur in misesUtilisateurs) {
+				var gain = misesUtilisateurs[utilisateur].sommeMisesGagnantes * cote - misesUtilisateurs[utilisateur].sommeMisesPerdantes;
+				gains.push({"emailUtilisateur" : utilisateur, "gain": gain});
+			}
 
-			console.log(misesUtilisateurs);
+			Match.update
+			(
+				{ 
+					idMatch: idMatch
+				},
+				{
+					"equipe1.score": scoreEquipe1,
+					"equipe2.score": scoreEquipe2,
+					"gains": gains
+				}
+			).exec(function(err, result) {
+				var error = false;
+				callback('{"error": ' + error + '}');
+			});
 		}
 	);
 
-	Match.update
-	(
-		{ 
-			idMatch: idMatch
-		},
-		{
-			"equipe1.score": scoreEquipe1,
-			"equipe2.score": scoreEquipe2
-		}
-	).exec(function(err, result) {
-		var error = false;
-		callback('{"error": ' + error + '}');
-	});
 
 };
 
