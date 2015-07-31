@@ -40,13 +40,13 @@
 							{{ match.equipe2 }}
 						</td>
 						<td>
-							<div>
+							<div ng-show="match.afficherInput" class="ng-hide">
 								<input name="mise" placeholder="{{ match.equipe1 }}" type="number" min="0" value="" ng-model="match.scoreEquipe1" /> - 
 								<input name="mise" placeholder="{{ match.equipe2 }}" type="number" min="0" value="" ng-model="match.scoreEquipe2" />
 							</div>
 						</td>
 						<td>
-							<div>
+							<div ng-show="match.afficherInput" class="ng-hide">
 								<button ng-click="saveScore( $index, match.idMatch )" name="valider">OK</button>
 							</div>
 						</td>

@@ -7,6 +7,7 @@ TODO
 - mettre à jour l'ensemble des cagnottes lorsqu'un nouveau score est entré
 - possibilité de s'inscrire à un groupe (et d'inviter quelqu'un à rejoindre son groupe)
 - affichage du classement des joueurs (par groupe et général)
+- tester que les valeurs en input soient correctes (notamment les nombres : limiter les décimales)
 
 DONE
 --------------
