@@ -1,11 +1,12 @@
 {
-  "name": "pariez",
+  "name": "parions",
   "version": "0.0.1",
-  "description": "Sample Description",
+  "description": "Site de pari en ligne",
   "private": true,
   "dependencies": {
     "jquery": "latest",
-    "bootstrap": "latest"
+    "bootstrap": "latest",
+    "angular": "latest"
   },
   "ignore": [
     "**/.*",
